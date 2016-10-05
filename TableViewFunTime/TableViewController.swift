@@ -11,13 +11,13 @@ import UIKit
 class TableViewController: UITableViewController {
     
     var favoriteSongs: [String] = []
-    
+    var favoriteIceCreams: [String] = []
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
         generateFavoriteSongs()
-        
+        generateFavoriteIceCreams()
     }
     
     func generateFavoriteSongs() {
@@ -33,9 +33,18 @@ class TableViewController: UITableViewController {
             "Moondance",
             "Stairway To Heaven",
             "One",
-            "Life On Mars?"
+            "Life On Mars?",
+            "Bohemian Rhapsody"
         ]
+    }
+    
+    func generateFavoriteIceCreams() {
         
+        favoriteIceCreams = [
+            "Cookie Dough",
+            "Butter Pecan",
+            "Caramel Swirls"
+        ]
     }
     
     
@@ -43,13 +52,14 @@ class TableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         
-        return 1
+        return 2
         
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return favoriteSongs.count
+        
+        return section == 0 ? favoriteSongs.count : favoriteIceCreams.count
         
     }
 
@@ -57,10 +67,16 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
                 
         let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath)
-
-        let favoriteSong = favoriteSongs[(indexPath as NSIndexPath).row]
         
-        cell.textLabel?.text = favoriteSong
+        let pathSection = (indexPath as NSIndexPath).section
+        
+        var cellText = ""
+        if pathSection == 0 {
+            cellText = favoriteSongs[(indexPath as NSIndexPath).row]
+        } else if pathSection == 1 {
+            cellText = favoriteIceCreams[(indexPath as NSIndexPath).row]
+        }
+        cell.textLabel?.text = cellText
 
         return cell
     }
